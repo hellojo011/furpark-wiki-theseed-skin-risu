@@ -426,6 +426,13 @@ export default {
                 }
             })
         }
+    },
+    mounted() {
+        this.showProfileImage();
+        initEasterEgg();
+        initKonamiEasterEgg();
+        const title = this.$store.state.page?.data?.document?.title?.trim().toLowerCase();
+        if(title?.includes('산골짜기늑대')) { this.showStars() };
     }
 }
 </script>
