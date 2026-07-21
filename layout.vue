@@ -103,6 +103,8 @@ import ContentTool from './layouts/contentTool';
 import SiteFooter from './layouts/siteFooter';
 import Icon from './components/icon';
 import License from "raw-loader!./LICENSE";
+import initEasterEgg from './easter-egg';
+import initKonamiEasterEgg from './konami-egg';
 
 export default {
     mixins: [Common],
@@ -124,6 +126,21 @@ export default {
     watch: {
         $route() {
             this.isShowACLMessage = false;
+        },
+        '$store.state.viewData.userProfile'(val) {
+            if (val) {
+                this.showProfileImage()
+            }
+        },
+        '$store.state.page.data.document.title'(val) {
+            const title = val?.trim().toLowerCase();
+            const stars = document.getElementById('stars');
+            if (title !== 'do a barrel roll') {} else {doABarrelRoll()}
+            if (title?.includes("산골짜기늑대")) {
+                this.showStars();
+            } else {
+                stars?.remove();
+            }
         }
     },
     head() {
@@ -336,6 +353,78 @@ export default {
         },
         selectByTheme(light, dark) {
             return this.$store.state.currentTheme === 'dark' ? dark : light;
+        },
+        updateNotFoundImage(viewName) {
+            const article = document.querySelector('.wiki-article')
+            const existing = document.querySelector('#notfound-watermark')
+
+            if (existing) existing.remove()
+
+            if (viewName === 'notfound' && article) {
+                article.style.position = 'relative';
+                article.style.height = '400px';
+                const count = 2 // notfound 이미지 개수
+                const randomNum = Math.floor(Math.random() * count) + 1
+                const randomSrc = `/notfound${randomNum}.png`
+                const alertBox = article.querySelector('.thetree-alert')
+                let imgElement = `<img id="notfound-watermark"
+                       src="${randomSrc}"
+                       style="width: 300px; opacity: 0.4; right: 0px; padding-right: 10px; margin-right: 20px; z-index: 0; position: absolute; pointer-events:none;">`
+                if (alertBox) {
+                    alertBox.insertAdjacentHTML(
+                      'afterend',
+                      imgElement
+                    )
+                } else {
+                    article.insertAdjacentHTML(
+                      'afterbegin',
+                      imgElement
+                    )
+                }
+            } else {
+                    article.style.position = '';
+                    article.style.height = '';
+            }
+        },
+        showProfileImage() {
+            this.$nextTick(() => {
+                if(this.$store.state['viewData'].userProfile) {
+                    const existUserProfile = document.querySelector('.user-profile-table');
+                    if(existUserProfile) existUserProfile.remove();
+                    const content = document.querySelector('.wiki-content')
+                    let date = new Date(this.$store.state['viewData'].userProfile.createdAt).toLocaleDateString();
+                    let profileHtml = `<div class="wiki-paragraph">
+                          <table class="user-profile-table">
+                              <tr>
+                                  <td colspan=2 class="avatar-cell">
+                                      <img src="${this.$store.state['viewData'].userProfile.gravatarUrl}" alt="Avatar" class="avatar">
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td><strong class="clone-trigger">사용자명</strong></td>
+                                  <td>${this.$store.state['viewData'].userProfile.username}</td>
+                              </tr>
+                              <tr>
+                                  <td><strong>가입일</strong></td>
+                                  <td>${date}</td>
+                              </tr>
+                              <tr>
+                                  <td><strong>권한</strong></td>
+                                  <td>${this.$store.state['viewData'].userProfile.userPerm}</td>
+                              </tr>
+                              <tr>
+                                  <td><strong>ACL Group</strong></td>
+                                  <td>${this.$store.state['viewData'].userProfile.aclGroups}</td>
+                              </tr>
+                          </table>
+                      </div>`;
+                content.insertAdjacentHTML(
+                    'afterbegin',
+                    profileHtml
+                    )
+                    bindCloneTrigger();
+                }
+            })
         }
     }
 }
