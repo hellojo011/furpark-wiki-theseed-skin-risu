@@ -92,6 +92,7 @@
 @import "./css/dark.css";
 @import "./css/thetree.css";
 @import "./css/userDocumentProfile.css";
+@import "./css/easter.css";
 </style>
 
 <script>
