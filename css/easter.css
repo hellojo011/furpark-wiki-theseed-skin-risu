@@ -55,10 +55,10 @@ body:not(.theseed-dark-mode) #stars {
     display:none;
 }
 
-body.theseed-dark-mode .Liberty {
+body.theseed-dark-mode .risu {
     background: transparent!important;
 }
 
-body.theseed-dark-mode .liberty-content>* {
+body.theseed-dark-mode .risu-content>* {
     background:transparent !important;
 }
