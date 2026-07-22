@@ -46,19 +46,15 @@ html.barrel-roll {
     }
 }
 
-body.theseed-dark-mode #stars {
+body:has(#stars) #stars {
     background: linear-gradient(to bottom, #050816, #0a1433, #102a63);
     z-index: -100;
 }
 
-body:not(.theseed-dark-mode) #stars {
-    display:none;
-}
-
-body.theseed-dark-mode .risu {
+body:has(#stars) .risu {
     background: transparent!important;
 }
 
-body.theseed-dark-mode .risu-content>* {
+body:has(#stars) .risu-content>* {
     background:transparent !important;
 }
