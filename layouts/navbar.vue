@@ -11,10 +11,12 @@
             <dropdown>
                 <template #toggle="{ show }">
                     <button type="button" class="risu-nav-link" :aria-expanded="show">
-                        <icon name="sliders" /><span class="hide-title">도구</span> <span class="caret"></span>
+                        <icon name="sliders" /><span class="hide-title">특수 기능</span> <span class="caret"></span>
                     </button>
                 </template>
                 <div class="dropdown-menu">
+                    <a href="https://board.furpark.kr" target="_blank" class="dropdown-item">Furpark Shelter</a>
+                    <div class="dropdown-divider"></div>
                     <nuxt-link to="/Upload" class="dropdown-item">파일 올리기</nuxt-link>
                     <div class="dropdown-divider"></div>
                     <nuxt-link to="/NeededPages" class="dropdown-item">작성이 필요한 문서</nuxt-link>
