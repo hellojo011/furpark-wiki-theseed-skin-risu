@@ -63,6 +63,7 @@
                     <template v-if="$store.state.session.account.type === 1">
                         <nuxt-link to="/member/mypage" class="dropdown-item">내 정보</nuxt-link>
                         <nuxt-link :to="doc_action_link(user_doc($store.state.session.account.name), 'w')" class="dropdown-item">내 사용자 문서</nuxt-link>
+                        <nuxt-link :to="doc_action_link(user_doc($store.state.session.account.name), 'w')+encodeURI('/연습장')" class="dropdown-item">내 사용자 문서 연습장</nuxt-link>
                         <nuxt-link to="/member/starred_documents" class="dropdown-item">내 문서함</nuxt-link>
                         <div class="dropdown-divider"></div>
                     </template>
