@@ -126,6 +126,10 @@ export default {
         };
     },
     watch: {
+	'$store.state.page.viewName'(newVal) {
+	    console.log('🔍 watch triggered:', newVal)
+            this.$nextTick(() => this.updateNotFoundImage(newVal))
+        },
         $route() {
             this.isShowACLMessage = false;
         },
@@ -467,6 +471,10 @@ export default {
         this.showProfileImage();
         initEasterEgg();
         initKonamiEasterEgg();
+        this.$nextTick(() => {
+            // 초기 페이지 로드 시에도 실행되도록
+            this.updateNotFoundImage(this.$store.state.page.viewName)
+      })
         const title = this.$store.state.page?.data?.document?.title?.trim().toLowerCase();
         if(title?.includes('산골짜기늑대')) { this.showStars() };
     }
