@@ -42,7 +42,6 @@ export default {
     },
     computed: {
         available() {
-            /* 알림 배열은 신버전 엔진 전용 — 없으면 벨 자체를 감춘다 */
             return this.$store.state.session.account.type === 1
                 && Array.isArray(this.$store.state.session.notifications);
         },

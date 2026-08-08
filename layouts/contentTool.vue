@@ -6,7 +6,7 @@
                 <nuxt-link v-else :to="l.to" class="btn tools-btn" :class="l.class" v-tooltip="l.tooltip" v-text="l.title" v-html="l.html"></nuxt-link>
             </template>
             <template v-if="menu.length">
-                <dropdown class="btn tools-btn">
+                <dropdown class="btn tools-btn" fixed>
                     <template #toggle="{ show }">
                         <button type="button" class="dropdown-toggle" aria-label="더 보기" :aria-expanded="show"><span class="caret"></span></button>
                     </template>
