@@ -1,5 +1,5 @@
 <template>
-    <setting>
+    <setting class="risu-setting">
         <setting-item-select label="사이드바 설정" ckey="risu.sidebar" :default="sidebar">
             <option value="right">우측 표시</option>
             <option value="hide">숨김</option>

@@ -132,3 +132,213 @@ body:not(.theseed-dark-mode) .risu div.comment div.user-block.user-starter {
 body.theseed-dark-mode.theseed-dark-mode .risu div.comment div.user-block.user-starter {
     background-color: var(--risu-pink-soft);
 }
+
+.risu-setting .thetree-modal-content {
+    border-radius: var(--risu-radius-lg);
+    border-color: var(--risu-border-soft);
+    background-color: var(--risu-card-bg);
+    box-shadow: var(--risu-shadow-lg);
+}
+
+.risu-setting .setting-block {
+    padding: 1.3rem 1.5rem 1.6rem;
+    color: var(--risu-text);
+}
+
+.risu-setting .setting-block > button {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    font-size: 1.3rem !important;
+    opacity: 0.55;
+    transition: background-color 0.12s ease, opacity 0.12s ease;
+}
+
+.risu-setting .setting-block > button:hover,
+.risu-setting .setting-block > button:focus {
+    background-color: var(--risu-pink-mist);
+    opacity: 1;
+    color: var(--risu-rose) !important;
+}
+
+.risu-setting .setting-block > h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--risu-text);
+    margin-bottom: 0.9rem;
+}
+
+.risu-setting .setting-block header {
+    border: 0;
+    height: auto;
+    padding: 0;
+    margin-bottom: 1.1rem;
+    border-bottom: 1px solid var(--risu-border-soft);
+}
+
+.risu-setting .setting-block header > ul {
+    display: flex;
+}
+
+.risu-setting .setting-block header > ul > li {
+    float: none;
+    display: flex;
+    align-items: center;
+    padding: 0.55rem 0.2rem;
+    margin-bottom: -1px;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+    color: var(--risu-text-muted);
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.risu-setting .setting-block header > ul > li + li {
+    margin-left: 1.1rem;
+}
+
+.risu-setting .setting-block header > ul > li:hover {
+    color: var(--risu-rose);
+}
+
+.risu-setting .setting-block header > ul > li.selected-tab {
+    background-color: transparent;
+    color: var(--risu-rose);
+    border-bottom-color: var(--risu-rose);
+}
+
+.risu-setting .setting-block header > ul > li::before {
+    content: "";
+    display: inline-block;
+    width: 1.05em;
+    height: 1.05em;
+    margin-right: 0.4em;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.risu-setting .setting-block header > ul > li:nth-child(1)::before {
+    -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M3 6h18v2H3zM12 3.5h3v7h-3zM3 16h18v2H3zM7 13.5h3v7H7z%27/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M3 6h18v2H3zM12 3.5h3v7h-3zM3 16h18v2H3zM7 13.5h3v7H7z%27/%3E%3C/svg%3E");
+}
+
+.risu-setting .setting-block header > ul > li:nth-child(2)::before {
+    -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M2 5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5z%27/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M2 5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5z%27/%3E%3C/svg%3E");
+}
+
+.risu-setting .setting-block header > ul > li:nth-child(3)::before {
+    -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M12 2C7 8 4 11.5 4 15a8 8 0 0 0 16 0c0-3.5-3-7-8-13z%27/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M12 2C7 8 4 11.5 4 15a8 8 0 0 0 16 0c0-3.5-3-7-8-13z%27/%3E%3C/svg%3E");
+}
+
+.risu-setting .setting-block .setting-item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.85rem 0.1rem;
+    border-bottom: 1px solid var(--risu-border-soft);
+}
+
+.risu-setting .setting-block .setting-item:last-child {
+    border-bottom: 0;
+}
+
+.risu-setting .setting-block .setting-item > label {
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.risu-setting .setting-block .setting-item > label small {
+    display: block;
+    margin-top: 0.15rem;
+    color: var(--risu-text-muted);
+    font-weight: 400;
+}
+
+.risu-setting .setting-block .setting-item-content {
+    flex-shrink: 0;
+}
+
+.risu-setting .setting-block select,
+.risu-setting .setting-block input[type="text"],
+.risu-setting .setting-block input[type="number"] {
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--risu-text);
+    background-color: var(--risu-card-bg);
+    border: 1px solid var(--risu-border);
+    border-radius: var(--risu-radius-sm);
+}
+
+.risu-setting .setting-block select:focus,
+.risu-setting .setting-block input:focus {
+    outline: 0;
+    border-color: var(--risu-rose);
+    box-shadow: 0 0 0 3px var(--risu-pink-mist);
+}
+
+.risu-setting .setting-block .select-menu,
+.risu-setting .setting-block .setting-input {
+    width: 12rem;
+}
+
+.risu-setting .setting-block .setting-check {
+    width: auto;
+    color: var(--risu-text-muted);
+    font-size: 0.85rem;
+}
+
+.risu-setting .setting-block .setting-check input[type="checkbox"] {
+    width: 2.5rem;
+    height: 1.4rem;
+    margin: 0 0.6rem 0 0;
+    border: 0;
+    border-radius: var(--risu-radius-pill);
+    background-color: var(--risu-border);
+    background-image: none !important;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.risu-setting .setting-block .setting-check input[type="checkbox"]::after {
+    content: "";
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: var(--risu-shadow-sm);
+    transition: transform 0.15s ease;
+}
+
+.risu-setting .setting-block .setting-check input[type="checkbox"]:checked {
+    background-color: var(--risu-pink);
+    background-image: none !important;
+}
+
+.risu-setting .setting-block .setting-check input[type="checkbox"]:checked::after {
+    transform: translateX(1.1rem);
+}
+
+.risu-setting .setting-block .setting-check input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--risu-rose);
+    outline-offset: 2px;
+}
+
+.risu-setting .setting-block hr {
+    border: 0;
+    border-top: 1px solid var(--risu-border-soft);
+    margin: 0.4rem 0;
+}
