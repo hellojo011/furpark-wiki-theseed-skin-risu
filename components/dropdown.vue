@@ -1,55 +1,44 @@
 <template>
-    <div ref="dropdown" class="dropdown" @keydown.esc.stop.prevent="closeOnEscape">
+    <FloatingDropdown v-if="fixed" v-model:shown="show" class="dropdown" strategy="fixed" placement="bottom-end"
+        :distance="8" :overflow-padding="8" :triggers="['click']" auto-hide container=".risu"
+        popper-class="risu-dropdown-popper">
+        <div ref="toggle"><slot name="toggle" :show="show"></slot></div>
+        <template #popper>
+            <div @click="hide"><slot></slot></div>
+        </template>
+    </FloatingDropdown>
+    <div v-else ref="dropdown" class="dropdown">
         <div ref="toggle" @click="toggle"><slot name="toggle" :show="show"></slot></div>
-        <div v-if="show" @click="hide" class="open" :class="{ 'dropdown-fixed': fixed }" :style="menuStyle"><slot></slot></div>
+        <div v-if="show" @click="hide" class="open"><slot></slot></div>
     </div>
 </template>
 
 <script>
+import { Dropdown as FloatingDropdown } from 'floating-vue';
+
 export default {
+    components: { FloatingDropdown },
     props: {
         fixed: { type: Boolean, default: false }
     },
     data() {
         return {
             show: false,
-            menuStyle: null,
         }
     },
     methods: {
         toggle() {
-            this.show ? this.hide() : this.open();
-        },
-        open() {
-            if (this.fixed) {
-                this.updatePosition();
-                window.addEventListener('scroll', this.hide, true);
-                window.addEventListener('resize', this.hide);
-            }
-            this.show = true;
+            this.show = !this.show;
         },
         hide() {
-            if (!this.show) return;
             this.show = false;
-            this.menuStyle = null;
-            if (this.fixed) {
-                window.removeEventListener('scroll', this.hide, true);
-                window.removeEventListener('resize', this.hide);
-            }
-        },
-        updatePosition() {
-            const rect = this.$refs.toggle.getBoundingClientRect();
-            this.menuStyle = {
-                position: 'fixed',
-                top: `${rect.bottom}px`,
-                right: `${window.innerWidth - rect.right}px`,
-            };
         },
         backdrop(e) {
-            if (this.show && !this.$refs.dropdown.contains(e.target)) this.hide();
+            if (this.fixed) return;
+            if (this.show && !this.$refs.dropdown?.contains(e.target)) this.hide();
         },
-        closeOnEscape() {
-            if (!this.show) return;
+        onKeydown(e) {
+            if (e.key !== 'Escape' || !this.show) return;
             this.hide();
             this.$nextTick(() => {
                 this.$refs.toggle?.querySelector('button, a[href]')?.focus();
@@ -58,13 +47,11 @@ export default {
     },
     mounted() {
         document.addEventListener('click', this.backdrop);
+        document.addEventListener('keydown', this.onKeydown);
     },
     beforeUnmount() {
         document.removeEventListener('click', this.backdrop);
-        if (this.fixed) {
-            window.removeEventListener('scroll', this.hide, true);
-            window.removeEventListener('resize', this.hide);
-        }
+        document.removeEventListener('keydown', this.onKeydown);
     }
 }
 </script>

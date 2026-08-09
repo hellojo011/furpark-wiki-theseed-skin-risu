@@ -269,15 +269,22 @@ body {
     right: 0;
 }
 
-/* fixed 모드(dropdown.vue :fixed)는 래퍼가 뷰포트 기준 top/right를 인라인으로 잡으므로
- * 메뉴 자체의 absolute 배치는 꺼서 좌표가 겹치지 않게 한다 */
-.risu .dropdown-fixed {
-    z-index: 120;
+.risu .risu-dropdown-popper .v-popper__inner {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
 }
 
-.risu .dropdown-fixed .dropdown-menu {
+.risu .risu-dropdown-popper .dropdown-menu {
     position: static;
+    margin-top: 0;
     max-width: calc(100vw - 1rem);
+}
+
+.risu .risu-dropdown-popper .v-popper__arrow-container {
+    display: none;
 }
 
 .risu .dropdown-item {
