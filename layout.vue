@@ -35,7 +35,7 @@
                             <h1 v-else>{{ $store.state.page.title }}</h1>
                         </div>
                     </div>
-                    <div class="wiki-article">
+                    <div class="wiki-article" ref="article">
                         <alert v-if="isShowACLMessage && $store.state.page.data.edit_acl_message" @close="isShowACLMessage = false" error closable>
                             <span v-html="$store.state.page.data.edit_acl_message" @click="onDynamicContentClick($event)"></span>
                             <span v-if="requestable"><br v-if="$store.state.page.data.edit_acl_message.includes('\n')"> 대신 <nuxt-link :to="doc_action_link($store.state.page.data.document, 'new_edit_request')">편집 요청</nuxt-link>을 생성할 수 있습니다.</span>
@@ -78,7 +78,7 @@
             </aside>
         </div>
         <div class="scroll-buttons">
-            <nuxt-link class="scroll-toc" to="#toc" title="목차"><icon name="list" /></nuxt-link>
+            <nuxt-link v-if="hasToc" class="scroll-toc" to="#toc" title="목차"><icon name="list" /></nuxt-link>
             <nuxt-link class="scroll-top" to="#top" title="맨 위로"><icon name="arrow-up" /></nuxt-link>
             <nuxt-link class="scroll-bottom" to="#bottom" title="맨 아래로"><icon name="arrow-down" /></nuxt-link>
         </div>
@@ -118,12 +118,14 @@ export default {
     data() {
         return {
             License,
-            isShowACLMessage: false
+            isShowACLMessage: false,
+            hasToc: false
         };
     },
     watch: {
         $route() {
             this.isShowACLMessage = false;
+            this.hasToc = false;
         }
     },
     head() {
@@ -345,7 +347,23 @@ export default {
         },
         selectByTheme(light, dark) {
             return this.$store.state.currentTheme === 'dark' ? dark : light;
+        },
+        checkToc() {
+            const resolvers = this.$router?.customHashSelector;
+            if (Array.isArray(resolvers)) {
+                this.hasToc = resolvers.some(fn => typeof fn === 'function' && !!fn('#toc'));
+                return;
+            }
+            this.hasToc = !!this.$refs.article?.querySelector('.wiki-macro-toc');
         }
+    },
+    mounted() {
+        this.checkToc();
+        this.tocObserver = new MutationObserver(this.checkToc);
+        this.tocObserver.observe(this.$refs.article, { childList: true, subtree: true });
+    },
+    beforeUnmount() {
+        this.tocObserver?.disconnect();
     }
 }
 </script>
