@@ -125,7 +125,7 @@ export default {
                                 });
                                 this.menu.push({
                                     class: 'admin',
-                                    to: `/BlockHistory?query=${this.data.user.uuid}&target=text`,
+                                    to: `/BlockHistory?query=${this.data.user.uuid}&target=target_account`,
                                     title: "차단 내역"
                                 });
                                 this.menu.push({
@@ -304,7 +304,7 @@ export default {
                         });
                         this.menu.push({
                             class: 'admin',
-                            to: `/BlockHistory?query=${this.data.account.uuid}&target=text`,
+                            to: `/BlockHistory?query=${this.data.account.uuid}&target=target_account`,
                             title: "차단 내역"
                         });
                         this.menu.push({
