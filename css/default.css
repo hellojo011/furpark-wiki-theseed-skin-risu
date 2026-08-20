@@ -463,6 +463,15 @@ body {
     border-radius: var(--risu-radius-pill);
 }
 
+.risu .risu-notif-dot {
+    min-width: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0;
+    top: 0.3rem;
+    right: 0.3rem;
+}
+
 .risu .risu-notif-menu {
     min-width: 17rem;
     max-width: 21rem;
