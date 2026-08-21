@@ -1161,6 +1161,10 @@ body {
     transition: background-color 0.15s ease;
 }
 
+.risu-setting.risu-setting input[type="checkbox"]::before {
+    display: none;
+}
+
 .risu-setting.risu-setting input[type="checkbox"]::after {
     content: "";
     position: absolute;
