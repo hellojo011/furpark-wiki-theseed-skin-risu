@@ -942,6 +942,41 @@ body {
     fill: currentColor;
 }
 
+/* ===== ads ===== */
+
+.risu .risu-ads {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.risu .risu-ads .adsbygoogle {
+    display: block;
+    width: 100%;
+}
+
+.risu .risu-ads-header {
+    margin-bottom: 0.9rem;
+}
+
+.risu .risu-ads-right {
+    margin-bottom: 1rem;
+    background-color: var(--risu-card-bg);
+    border-radius: var(--risu-radius-lg);
+    box-shadow: var(--risu-shadow-md);
+    padding: 0.6rem;
+}
+
+.risu .risu-ads-belowarticle {
+    margin-top: 1.2rem;
+}
+
+.risu .risu-ads-bottom {
+    max-width: var(--risu-wrap-width, 1200px);
+    margin: 0 auto 1.5rem;
+    padding: 0 0.6rem;
+}
+
 /* ===== settings modal ===== */
 
 .risu-setting.risu-setting .vfm__content {

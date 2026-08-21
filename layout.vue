@@ -7,6 +7,7 @@
                 <div v-if="$store.state.config['wiki.sitenotice']" id="site-notice" class="risu-notice">
                     <span v-html="$store.state.config['wiki.sitenotice']" @click="onDynamicContentClick($event)" />
                 </div>
+                <ad-unit position="header" />
                 <div class="risu-content">
                     <div class="risu-content-header">
                         <content-tool @onClickEditBtn="showEditMessage" />
@@ -52,6 +53,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
+                    <ad-unit position="belowarticle" />
                 </div>
                 <site-footer />
                 <div v-if="sidebarMode === 'footer'" class="footer-recent">
@@ -65,6 +67,7 @@
                 </div>
             </main>
             <aside v-if="sidebarMode === 'right'" class="risu-sidebar">
+                <ad-unit position="right" />
                 <div class="live-recent">
                     <div class="live-recent-header">최근 변경</div>
                     <recent-card />
@@ -74,6 +77,7 @@
                 </div>
             </aside>
         </div>
+        <ad-unit position="bottom" />
         <div class="scroll-buttons">
             <nuxt-link v-if="hasToc" class="scroll-toc" to="#toc" title="목차"><icon name="list" /></nuxt-link>
             <nuxt-link class="scroll-top" to="#top" title="맨 위로"><icon name="arrow-up" /></nuxt-link>
@@ -99,6 +103,7 @@ import RecentCard from './layouts/recentCard';
 import ContentTool from './layouts/contentTool';
 import SiteFooter from './layouts/siteFooter';
 import Icon from './components/icon';
+import AdUnit from './components/adUnit';
 import License from "raw-loader!./LICENSE";
 
 export default {
@@ -110,7 +115,8 @@ export default {
         RecentCard,
         ContentTool,
         SiteFooter,
-        Icon
+        Icon,
+        AdUnit
     },
     data() {
         return {
@@ -132,7 +138,8 @@ export default {
         return {
             meta: [{ name: 'theme-color', content: this.brand_color }],
             link: this.fontLinks,
-            style: styles
+            style: styles,
+            script: this.adScripts
         };
     },
     computed: {
@@ -299,6 +306,17 @@ export default {
             }
             /* pretendard는 tokens.css 기본 스택 최상단에 이미 있으므로 웹폰트 로드만으로 충분 */
             return '';
+        },
+        adClient() {
+            return this.$store.state.config['skin.risu.ad_client'];
+        },
+        adScripts() {
+            if (!this.adClient) return [];
+            return [{
+                async: true,
+                crossorigin: 'anonymous',
+                src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${this.adClient}`
+            }];
         },
         requestable() {
             return this.$store.state.page.data.editable === true && this.$store.state.page.data.edit_acl_message && this.$store.state.page.viewName !== 'notfound';
