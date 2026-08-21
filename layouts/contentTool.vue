@@ -204,10 +204,12 @@ export default {
                         to: this.doc_action_link(this.data.document, 'move'),
                         title: "이동"
                     });
-                    this.main.push({
-                        to: this.doc_action_link(this.data.document, 'copy'),
-                        title: "복사"
-                    });
+                    if (this.data.body.baseuuid) {
+                        this.main.push({
+                            to: this.doc_action_link(this.data.document, 'copy', { uuid: this.data.body.baseuuid }),
+                            title: "복사"
+                        });
+                    }
                     this.main.push({
                         class: "btn-danger",
                         to: this.doc_action_link(this.data.document, 'delete'),
