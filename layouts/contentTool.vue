@@ -52,6 +52,38 @@ export default {
     },
   },
   methods: {
+    pushRevisionTools(uuid) {
+      this.main.push({
+        to: this.doc_action_link(this.data.document, 'history', this.data.rev ? { from: this.data.rev } : undefined),
+        class: 'btn-info',
+        title: '역사',
+      })
+      this.main.push({
+        to: this.doc_action_link(this.data.document, 'w', uuid ? { uuid } : undefined),
+        class: this.$store.state.page.viewName === 'wiki' ? 'disabled' : null,
+        title: '보기',
+      })
+      this.main.push({
+        to: this.doc_action_link(this.data.document, 'raw', uuid ? { uuid } : undefined),
+        class: this.$store.state.page.viewName === 'raw' ? 'disabled' : null,
+        title: 'RAW',
+      })
+      this.main.push({
+        to: this.doc_action_link(this.data.document, 'blame', uuid ? { uuid } : undefined),
+        class: this.$store.state.page.viewName === 'blame' ? 'disabled' : null,
+        title: 'blame',
+      })
+      this.main.push({
+        to: this.doc_action_link(this.data.document, 'revert', uuid ? { uuid } : undefined),
+        class: this.$store.state.page.viewName === 'revert' ? 'disabled' : null,
+        title: '되돌리기',
+      })
+      this.main.push({
+        to: this.doc_action_link(this.data.document, 'diff', uuid ? { uuid } : undefined),
+        class: this.$store.state.page.viewName === 'diff' ? 'disabled' : null,
+        title: '비교',
+      })
+    },
     calculate() {
       const uuid = this.data?.uuid
       this.main = []
@@ -137,40 +169,13 @@ export default {
             }
             break
           }
+          this.pushRevisionTools(uuid)
+          break
         case 'raw':
         case 'blame':
         case 'revert':
         case 'diff':
-          this.main.push({
-            to: this.doc_action_link(this.data.document, 'history', this.data.rev ? { from: this.data.rev } : undefined),
-            class: 'btn-info',
-            title: '역사',
-          })
-          this.main.push({
-            to: this.doc_action_link(this.data.document, 'w', uuid ? { uuid } : undefined),
-            class: this.$store.state.page.viewName === 'wiki' ? 'disabled' : null,
-            title: '보기',
-          })
-          this.main.push({
-            to: this.doc_action_link(this.data.document, 'raw', uuid ? { uuid } : undefined),
-            class: this.$store.state.page.viewName === 'raw' ? 'disabled' : null,
-            title: 'RAW',
-          })
-          this.main.push({
-            to: this.doc_action_link(this.data.document, 'blame', uuid ? { uuid } : undefined),
-            class: this.$store.state.page.viewName === 'blame' ? 'disabled' : null,
-            title: 'blame',
-          })
-          this.main.push({
-            to: this.doc_action_link(this.data.document, 'revert', uuid ? { uuid } : undefined),
-            class: this.$store.state.page.viewName === 'revert' ? 'disabled' : null,
-            title: '되돌리기',
-          })
-          this.main.push({
-            to: this.doc_action_link(this.data.document, 'diff', uuid ? { uuid } : undefined),
-            class: this.$store.state.page.viewName === 'diff' ? 'disabled' : null,
-            title: '비교',
-          })
+          this.pushRevisionTools(uuid)
           break
         case 'notfound':
           this.main.push({
