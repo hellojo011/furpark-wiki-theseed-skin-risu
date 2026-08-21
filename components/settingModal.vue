@@ -25,6 +25,7 @@
         <setting-item-checkbox label="떠 있는 내비게이션 바" ckey="risu.floating_navbar" :default="true" />
         <setting-item-checkbox label="페이지 이동 시 검색 창 초기화" ckey="risu.reset_search_on_move" :default="true" />
         <setting-item-checkbox label="넓은 화면 모드" ckey="risu.wide_mode" />
+        <setting-item-checkbox v-if="canHideAds" label="광고 표시" ckey="risu.ads" :default="true" />
         <template v-if="$store.state.session.quick_block">
             <hr />
             <setting-item-checkbox label="[ADMIN] 관리 편의성 개선" ckey="risu.admin_convenience" :default="true" />
@@ -53,6 +54,10 @@ export default {
     computed: {
         sidebar() {
             return isMobile ? "hide" : "right";
+        },
+        canHideAds() {
+            return !!this.$store.state.config['skin.risu.ad_client']
+                && this.$store.state.session.account.type !== 0;
         }
     }
 }

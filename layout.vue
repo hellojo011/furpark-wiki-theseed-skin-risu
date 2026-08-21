@@ -310,8 +310,12 @@ export default {
         adClient() {
             return this.$store.state.config['skin.risu.ad_client'];
         },
+        adsDisabled() {
+            return this.$store.state.localConfig['risu.ads'] === false
+                && this.$store.state.session.account.type !== 0;
+        },
         adScripts() {
-            if (!this.adClient) return [];
+            if (!this.adClient || this.adsDisabled) return [];
             return [{
                 async: true,
                 crossorigin: 'anonymous',

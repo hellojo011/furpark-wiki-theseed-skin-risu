@@ -23,8 +23,12 @@ export default {
         slotId() {
             return this.$store.state.config[`skin.risu.ad_slot_${this.position}`];
         },
+        adsHidden() {
+            return this.$store.state.localConfig['risu.ads'] === false
+                && this.$store.state.session.account.type !== 0;
+        },
         visible() {
-            return !!this.client && !!this.slotId;
+            return !!this.client && !!this.slotId && !this.adsHidden;
         },
         adFormat() {
             return this.position === 'header' ? 'horizontal' : 'auto';
