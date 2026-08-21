@@ -29,6 +29,7 @@
             <div v-else-if="engineMenu" class="risu-notif-engine" @click.stop>
                 <component :is="engineMenu" />
             </div>
+            <div v-else-if="engineMenuPending" class="dropdown-item risu-notif-empty">불러오는 중…</div>
             <div v-else-if="hasUnread" class="dropdown-item risu-notif-empty">읽지 않은 알림이 있습니다.</div>
             <div v-else class="dropdown-item risu-notif-empty">새 알림이 없습니다.</div>
         </div>
@@ -48,6 +49,15 @@ try {
     bundledEngineMenu = Object.values(modules)[0]?.default ?? null;
 } catch {}
 
+const importEngineMenu = async () => {
+    try {
+        const module = await import(/* @vite-ignore */ '~/components/notificationMenu.vue');
+        return module?.default ?? null;
+    } catch {
+        return null;
+    }
+};
+
 export default {
     mixins: [Common],
     components: {
@@ -55,10 +65,17 @@ export default {
         Icon,
         LocalDate
     },
+    data() {
+        return {
+            importedEngineMenu: null,
+            engineMenuPending: false
+        };
+    },
     computed: {
         engineMenu() {
             const registered = this.$?.appContext?.components;
             const found = bundledEngineMenu
+                ?? this.importedEngineMenu
                 ?? registered?.NotificationMenu
                 ?? registered?.notificationMenu
                 ?? null;
@@ -81,6 +98,13 @@ export default {
             if (this.hasUnreadFlag) return this.$store.state.session.has_unread_notifications;
             return this.notifications.length > 0;
         }
+    },
+    async mounted() {
+        if (!this.hasUnreadFlag || this.engineMenu) return;
+        this.engineMenuPending = true;
+        const module = await importEngineMenu();
+        if (module) this.importedEngineMenu = markRaw(module);
+        this.engineMenuPending = false;
     },
     methods: {
         linkOf(item) {
