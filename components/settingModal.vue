@@ -21,7 +21,8 @@
       <option value="noto">Noto Sans KR</option>
       <option value="custom">직접 입력</option>
     </setting-item-select>
-    <setting-item-input v-if="$store.state.localConfig['risu.font'] === 'custom'" label="글꼴 이름" note="기기에 설치된 글꼴" ckey="risu.font_custom" />
+    <setting-item-input v-if="$store.state.localConfig['risu.font'] === 'custom'" label="글꼴" note="설치된 글꼴 이름, 폰트 파일 주소, 또는 스타일시트 주소" ckey="risu.font_custom" />
+    <setting-item-input v-if="needsFontFamily" label="글꼴 이름" note="스타일시트에 정의된 이름 (예: Noto Serif KR). 스타일시트는 문서 모양을 바꿀 수 있으니 믿을 수 있는 주소만 넣으세요." ckey="risu.font_custom_family" />
     <setting-item-checkbox label="떠 있는 내비게이션 바" ckey="risu.floating_navbar" :default="true" />
     <setting-item-checkbox label="페이지 이동 시 검색 창 초기화" ckey="risu.reset_search_on_move" :default="true" />
     <setting-item-checkbox label="넓은 화면 모드" ckey="risu.wide_mode" />
@@ -54,6 +55,12 @@ export default {
   computed: {
     sidebar() {
       return isMobile ? 'hide' : 'right'
+    },
+    needsFontFamily() {
+      if (this.$store.state.localConfig['risu.font'] !== 'custom') return false
+      const value = (this.$store.state.localConfig['risu.font_custom'] ?? '').trim()
+      if (!/^https:\/\//i.test(value)) return false
+      return !/\.(woff2|woff|ttf|otf)$/i.test(value.split('?')[0])
     },
     canHideAds() {
       return !!this.$store.state.config['skin.risu.ad_client']

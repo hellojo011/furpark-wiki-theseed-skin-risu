@@ -294,15 +294,63 @@ export default {
       if (this.selectedFont === 'noto') return [
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap' },
       ]
+      if (this.selectedFont === 'custom' && this.customFontStyleUrl && this.customFontFamily) return [
+        { rel: 'stylesheet', href: this.customFontStyleUrl },
+      ]
       return []
+    },
+    customFontValue() {
+      return (this.$store.state.localConfig['risu.font_custom'] ?? '').trim()
+    },
+    customFontUrl() {
+      const raw = this.customFontValue
+      if (!/^https:\/\/[\w.\-/%:@?&=+~#]+$/.test(raw)) return ''
+      let parsed
+      try {
+        parsed = new URL(raw)
+      }
+      catch {
+        return ''
+      }
+      if (parsed.protocol !== 'https:') return ''
+      if (!/\.(woff2|woff|ttf|otf)$/i.test(parsed.pathname)) return ''
+      return parsed.href
+    },
+    customFontStyleUrl() {
+      if (this.customFontUrl) return ''
+      let parsed
+      try {
+        parsed = new URL(this.customFontValue)
+      }
+      catch {
+        return ''
+      }
+      if (parsed.protocol !== 'https:') return ''
+      return parsed.href
+    },
+    customFontFamily() {
+      return (this.$store.state.localConfig['risu.font_custom_family'] ?? '').replace(/[^\w\s가-힣.,-]/g, '').trim()
+    },
+    customFontName() {
+      if (this.customFontUrl) return ''
+      if (/^[a-z]+:\/\//i.test(this.customFontValue)) return ''
+      /* <style>에 들어가므로 폰트명에 쓰이는 문자만 허용 */
+      return this.customFontValue.replace(/[^\w\s가-힣.,-]/g, '').trim()
     },
     fontCss() {
       /* :root:root — tokens.css의 :root 선언보다 특이도를 높여 로드 순서와 무관하게 적용 */
-      if (this.selectedFont === 'noto') return ':root:root{--risu-font:"Noto Sans KR","Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif}'
+      const fallback = '"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif'
+      if (this.selectedFont === 'noto') return `:root:root{--risu-font:"Noto Sans KR",${fallback}}`
       if (this.selectedFont === 'custom') {
-        /* <style>에 들어가므로 폰트명에 쓰이는 문자만 허용 */
-        const custom = (this.$store.state.localConfig['risu.font_custom'] ?? '').replace(/[^\w\s가-힣.,-]/g, '').trim()
-        if (custom) return `:root:root{--risu-font:"${custom}","Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif}`
+        if (this.customFontUrl) {
+          const formats = { woff2: 'woff2', woff: 'woff', ttf: 'truetype', otf: 'opentype' }
+          const extension = this.customFontUrl.split('.').pop().toLowerCase()
+          const format = formats[extension] ? ` format("${formats[extension]}")` : ''
+          return `@font-face{font-family:"risu-custom-font";src:url("${this.customFontUrl}")${format};font-display:swap}`
+            + `:root:root{--risu-font:"risu-custom-font",${fallback}}`
+        }
+        if (this.customFontStyleUrl && this.customFontFamily) return `:root:root{--risu-font:"${this.customFontFamily}",${fallback}}`
+        if (this.customFontName) return `:root:root{--risu-font:"${this.customFontName}",${fallback}}`
       }
       /* pretendard는 tokens.css 기본 스택 최상단에 이미 있으므로 웹폰트 로드만으로 충분 */
       return ''
