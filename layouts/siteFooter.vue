@@ -1,17 +1,17 @@
 <template>
-  <footer id="bottom" class="risu-footer">
-    <ul v-if="$store.state.page.viewName === 'wiki' && $store.state.page.data.date" class="footer-info">
-      <li v-if="$store.state.page.data.rev" class="footer-info-lastmod">이 리비전은 <local-date :date="$store.state.page.data.date" />에 편집되었습니다.</li>
-      <li v-else class="footer-info-lastmod">이 문서는 <local-date :date="$store.state.page.data.date" />에 마지막으로 편집되었습니다.</li>
-      <li class="footer-info-copyright" v-html="$store.state.page.data.copyright_text ?? $store.state.config['wiki.copyright_text']" @click="onDynamicContentClick($event)" />
-    </ul>
-    <ul class="footer-places" v-html="$store.state.config['skin.risu.footer_html'] || $store.state.config['wiki.footer_text']" @click="onDynamicContentClick($event)" />
-    <ul class="footer-icons">
-      <li class="footer-poweredbyico">
-        <a href="https://github.com/Hoto-Cocoa/theseed-skin-risu" target="_blank">risu</a> | <a :href="engine.url">{{ engine.name }}</a>
-      </li>
-    </ul>
-  </footer>
+    <footer id="bottom" class="risu-footer">
+        <ul v-if="$store.state.page.viewName === 'wiki' && $store.state.page.data.date" class="footer-info">
+            <li v-if="$store.state.page.data.rev" class="footer-info-lastmod">이 리비전은 <local-date :date="$store.state.page.data.date" />에 편집되었습니다.</li>
+            <li v-else class="footer-info-lastmod">이 문서는 <local-date :date="$store.state.page.data.date" />에 마지막으로 편집되었습니다.</li>
+            <li class="footer-info-copyright" v-html="$store.state.page.data.copyright_text ?? $store.state.config['wiki.copyright_text']" @click="onDynamicContentClick($event)" />
+        </ul>
+        <ul class="footer-places" v-html="$store.state.config['skin.risu.footer_html'] || $store.state.config['wiki.footer_text']" @click="onDynamicContentClick($event)" />
+        <ul class="footer-icons">
+            <li class="footer-poweredbyico">
+                <a href="https://github.com/Hoto-Cocoa/theseed-skin-risu" target="_blank">risu</a> <a href="https://github.com/hellojo011/furpark-wiki-theseed-skin-risu" target="_blank"> edited</a> | <a :href="engine.url">{{ engine.name }}</a>
+            </li>
+        </ul>
+    </footer>
 </template>
 
 <script>

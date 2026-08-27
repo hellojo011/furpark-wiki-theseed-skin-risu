@@ -942,6 +942,10 @@ body {
     fill: currentColor;
 }
 
+
+body.theseed-dark-mode .interwiki {
+  --iw-c: var(--iw-dark-color, var(--iw-color));
+}
 /* ===== ads ===== */
 
 .risu .risu-ads {
