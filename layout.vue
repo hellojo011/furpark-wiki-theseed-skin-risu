@@ -106,6 +106,7 @@ import RecentCard from './layouts/recentCard';
 import ContentTool from './layouts/contentTool';
 import SiteFooter from './layouts/siteFooter';
 import Icon from './components/icon';
+import AdUnit from './components/adUnit'
 import License from "raw-loader!./LICENSE";
 import initEasterEgg from './easter-egg';
 import initKonamiEasterEgg from './konami-egg';
