@@ -77,8 +77,6 @@
                     <nuxt-link v-else :to="{ path: '/member/login', query: { redirect: $route.fullPath } }" class="dropdown-item">로그인</nuxt-link>
                 </div>
             </dropdown>
-        </div>
-      </dropdown>
     </div>
   </header>
 </template>
