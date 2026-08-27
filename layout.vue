@@ -135,6 +135,19 @@ export default {
       this.isShowACLMessage = false
       this.hasToc = false
     },
+    '$store.state.page.viewName'(newVal) {
+      console.log('🔍 watch triggered:', newVal)
+      this.$nextTick(() => this.updateNotFoundImage(newVal))
+    },
+    '$store.state.viewData.userProfile'(val) {
+      if (val) this.showProfileImage()
+    },
+    '$store.state.page.data.document.title'(val) {
+      const title = val?.trim().toLowerCase()
+      if (title === 'do a barrel roll') doABarrelRoll()
+      if (title?.includes('산골짜기늑대')) this.showStars()
+      else document.getElementById('stars')?.remove()
+    },
   },
   head() {
     const styles = []
@@ -155,32 +168,6 @@ export default {
         return this.selectByTheme(brand, this.hslToHex(h, (s / 100) * 25, 10))
       }
       return this.selectByTheme('#FFC0CB', '#211419')
-    },
-  },
-    watch: {
-	    '$store.state.page.viewName'(newVal) {
-	        onsole.log('🔍 watch triggered:', newVal)
-            this.$nextTick(() => this.updateNotFoundImage(newVal))
-          },
-          $route() {
-            this.isShowACLMessage = false;
-          },
-          '$store.state.viewData.userProfile'(val) {
-            if (val) {
-                this.showProfileImage()
-            }
-          },
-          '$store.state.page.data.document.title'(val) {
-            const title = val?.trim().toLowerCase();
-            const stars = document.getElementById('stars');
-            if (title !== 'do a barrel roll') {} else {doABarrelRoll()}
-            if (title?.includes("산골짜기늑대")) {
-                this.showStars();
-            } else {
-                stars?.remove();
-            }
-          }
-
     },
     rootClass() {
       return {
