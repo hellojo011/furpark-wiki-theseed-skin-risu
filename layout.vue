@@ -169,6 +169,10 @@ export default {
       }
       return this.selectByTheme('#FFC0CB', '#211419')
     },
+    sidebarMode() {
+      const value = this.$store.state.localConfig['risu.sidebar']
+      return value === 'hide' || value === 'footer' ? value : 'right'
+    },
     rootClass() {
       return {
         'navbar-floating': this.$store.state.localConfig['risu.floating_navbar'] !== false,
