@@ -157,62 +157,62 @@ export default {
       return this.selectByTheme('#FFC0CB', '#211419')
     },
   },
-  watch: {
-    '$store.state.page.viewName'(newVal) {
-        onsole.log('🔍 watch triggered:', newVal)
-          this.$nextTick(() => this.updateNotFoundImage(newVal))
-        },
-        $route() {
-          this.isShowACLMessage = false;
-        },
-        '$store.state.viewData.userProfile'(val) {
-          if (val) {
-              this.showProfileImage()
+    watch: {
+	    '$store.state.page.viewName'(newVal) {
+	        onsole.log('🔍 watch triggered:', newVal)
+            this.$nextTick(() => this.updateNotFoundImage(newVal))
+          },
+          $route() {
+            this.isShowACLMessage = false;
+          },
+          '$store.state.viewData.userProfile'(val) {
+            if (val) {
+                this.showProfileImage()
+            }
+          },
+          '$store.state.page.data.document.title'(val) {
+            const title = val?.trim().toLowerCase();
+            const stars = document.getElementById('stars');
+            if (title !== 'do a barrel roll') {} else {doABarrelRoll()}
+            if (title?.includes("산골짜기늑대")) {
+                this.showStars();
+            } else {
+                stars?.remove();
+            }
           }
-        },
-        '$store.state.page.data.document.title'(val) {
-          const title = val?.trim().toLowerCase();
-          const stars = document.getElementById('stars');
-          if (title !== 'do a barrel roll') {} else {doABarrelRoll()}
-          if (title?.includes("산골짜기늑대")) {
-              this.showStars();
-          } else {
-              stars?.remove();
-          }
-        }
 
-  },
-  rootClass() {
-    return {
-      'navbar-floating': this.$store.state.localConfig['risu.floating_navbar'] !== false,
-      'wide': this.$store.state.localConfig['risu.wide_mode'] === true,
-    }
-  },
-  skinConfig() {
-    /* 테마 의존 값을 여기(인라인 스타일)에 넣으면 SSR 첫 페인트와
-            * 하이드레이션 사이에 색이 튄다. 테마별 값은 전부 tokens.css가 담당하고,
-            * 인라인은 테마와 무관한 값만 유지한다. */
-    return {
-      '--risu-logo-width': this.$store.state.config['skin.risu.logo_width'],
-    }
-  },
-  resolvedBrand() {
-    /* 우선순위: 사용자 설정(프리셋/커스텀) > 위키 설정 > 기본 핑크(오버라이드 없음) */
-    const presets = {
-      pink: '#FFC0CB',
-      lavender: '#D9C6F2',
-      mint: '#BFE8D2',
-      sky: '#BFD9F2',
-      peach: '#FFD2B8',
-    }
-    const choice = this.$store.state.localConfig['risu.color']
-    if (presets[choice]) return presets[choice]
-    if (choice === 'custom') {
-      const custom = this.$store.state.localConfig['risu.color_custom']
-      if (/^#[0-9a-fA-F]{6}$/.test(custom)) return custom
-    }
-    return this.$store.state.config['skin.risu.brand_color']
-  },
+    },
+    rootClass() {
+      return {
+        'navbar-floating': this.$store.state.localConfig['risu.floating_navbar'] !== false,
+        'wide': this.$store.state.localConfig['risu.wide_mode'] === true,
+      }
+    },
+    skinConfig() {
+      /* 테마 의존 값을 여기(인라인 스타일)에 넣으면 SSR 첫 페인트와
+             * 하이드레이션 사이에 색이 튄다. 테마별 값은 전부 tokens.css가 담당하고,
+             * 인라인은 테마와 무관한 값만 유지한다. */
+      return {
+        '--risu-logo-width': this.$store.state.config['skin.risu.logo_width'],
+      }
+    },
+    resolvedBrand() {
+      /* 우선순위: 사용자 설정(프리셋/커스텀) > 위키 설정 > 기본 핑크(오버라이드 없음) */
+      const presets = {
+        pink: '#FFC0CB',
+        lavender: '#D9C6F2',
+        mint: '#BFE8D2',
+        sky: '#BFD9F2',
+        peach: '#FFD2B8',
+      }
+      const choice = this.$store.state.localConfig['risu.color']
+      if (presets[choice]) return presets[choice]
+      if (choice === 'custom') {
+        const custom = this.$store.state.localConfig['risu.color_custom']
+        if (/^#[0-9a-fA-F]{6}$/.test(custom)) return custom
+      }
+      return this.$store.state.config['skin.risu.brand_color']
+    },
     brandOverrideCss() {
       const brand = this.resolvedBrand
       if (!brand || !/^#[0-9a-fA-F]{6}$/.test(brand)) return ''
