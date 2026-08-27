@@ -918,3 +918,7 @@ body {
     vertical-align: -0.125em;
     fill: currentColor;
 }
+
+body.theseed-dark-mode .interwiki {
+  --iw-c: var(--iw-dark-color, var(--iw-color));
+}
