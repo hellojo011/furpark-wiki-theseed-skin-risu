@@ -78,60 +78,62 @@
                 </div>
             </dropdown>
         </div>
-    </header>
+      </dropdown>
+    </div>
+  </header>
 </template>
 
 <script>
-import Common from '~/mixins/common';
-import Dropdown from '../components/dropdown';
-import Icon from '../components/icon';
-import NotificationMenu from '../components/notificationMenu';
-import SearchForm from './searchForm';
-import SettingModal from '../components/settingModal';
+import Common from '~/mixins/common'
+import Dropdown from '../components/dropdown'
+import Icon from '../components/icon'
+import NotificationMenu from '../components/notificationMenu'
+import SearchForm from './searchForm'
+import SettingModal from '../components/settingModal'
 
 export default {
-    mixins: [Common],
-    components: {
-        Dropdown,
-        Icon,
-        NotificationMenu,
-        SearchForm
-    },
-    data() {
-        return {
-            scrolled: false
-        };
-    },
-    mounted() {
-        window.addEventListener('scroll', this.onScroll, { passive: true });
-        this.onScroll();
-    },
-    beforeUnmount() {
-        window.removeEventListener('scroll', this.onScroll);
-    },
-    computed: {
-        logoImage() {
-            return this.$store.state.config['skin.risu.logo_image'] ?? this.$store.state.config['wiki.logo_url'];
-        },
-        discussContributionLink() {
-            const uuid = this.$store.state.session.account.uuid;
-            return typeof this.contribution_link_discuss === 'function' ? this.contribution_link_discuss(uuid) : null;
-        },
-        editRequestContributionLink() {
-            const uuid = this.$store.state.session.account.uuid;
-            return typeof this.contribution_link_edit_request === 'function' ? this.contribution_link_edit_request(uuid) : null;
-        },
-        logoText() {
-            return this.$store.state.config['skin.risu.logo_text'] ?? this.$store.state.config['wiki.site_name'] ?? 'risu';
-        }
-    },
-    methods: {
-        onScroll() {
-            this.scrolled = window.scrollY > 8;
-        },
-        openSettingModal() {
-            this.$vfm.show({ component: SettingModal });
-        }
+  mixins: [Common],
+  components: {
+    Dropdown,
+    Icon,
+    NotificationMenu,
+    SearchForm,
+  },
+  data() {
+    return {
+      scrolled: false,
     }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.onScroll, { passive: true })
+    this.onScroll()
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.onScroll)
+  },
+  computed: {
+    logoImage() {
+      return this.$store.state.config['skin.risu.logo_image'] ?? this.$store.state.config['wiki.logo_url']
+    },
+    discussContributionLink() {
+      const uuid = this.$store.state.session.account.uuid
+      return typeof this.contribution_link_discuss === 'function' ? this.contribution_link_discuss(uuid) : null
+    },
+    editRequestContributionLink() {
+      const uuid = this.$store.state.session.account.uuid
+      return typeof this.contribution_link_edit_request === 'function' ? this.contribution_link_edit_request(uuid) : null
+    },
+    logoText() {
+      return this.$store.state.config['skin.risu.logo_text'] ?? this.$store.state.config['wiki.site_name'] ?? 'risu'
+    },
+  },
+  methods: {
+    onScroll() {
+      this.scrolled = window.scrollY > 8
+    },
+    openSettingModal() {
+      this.$vfm.show({ component: SettingModal })
+    },
+  },
 }
 </script>

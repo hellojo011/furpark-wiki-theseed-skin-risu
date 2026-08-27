@@ -8,20 +8,26 @@
         <ul class="footer-places" v-html="$store.state.config['skin.risu.footer_html'] || $store.state.config['wiki.footer_text']" @click="onDynamicContentClick($event)" />
         <ul class="footer-icons">
             <li class="footer-poweredbyico">
-                <a href="https://github.com/Hoto-Cocoa/theseed-skin-risu" target="_blank">risu</a> <a href="https://github.com/hellojo011/furpark-wiki-theseed-skin-risu" target="_blank"> edited</a> | <a href="https://github.com/wjdgustn/thetree"  target="_blank">the tree</a>
+                <a href="https://github.com/Hoto-Cocoa/theseed-skin-risu" target="_blank">risu</a> <a href="https://github.com/hellojo011/furpark-wiki-theseed-skin-risu" target="_blank"> edited</a> | <a :href="engine.url">{{ engine.name }}</a>
             </li>
         </ul>
     </footer>
 </template>
 
 <script>
-import Common from '~/mixins/common';
-import LocalDate from '~/components/localDate';
+import Common from '~/mixins/common'
+import LocalDate from '~/components/localDate'
 
 export default {
-    mixins: [Common],
-    components: {
-        LocalDate
-    }
+  mixins: [Common],
+  components: {
+    LocalDate,
+  },
+  computed: {
+    engine() {
+      if (this.$store.state.viewData) return { name: 'the tree', url: 'https://github.com/wjdgustn/thetree' }
+      return { name: 'the seed', url: '//theseed.io/' }
+    },
+  },
 }
 </script>
