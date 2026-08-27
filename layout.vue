@@ -92,21 +92,12 @@
 @import "./css/mobile.css";
 @import "./css/dark.css";
 @import "./css/thetree.css";
+@import "./css/userDocumentProfile.css";
+@import "./css/easter.css";
 </style>
 
 <script>
-<<<<<<< HEAD
-import Common from '~/mixins/common'
-import Alert from '~/components/alert'
-import SeedLinkButton from '~/components/seedLinkButton'
-import Navbar from './layouts/navbar'
-import RecentCard from './layouts/recentCard'
-import ContentTool from './layouts/contentTool'
-import SiteFooter from './layouts/siteFooter'
-import Icon from './components/icon'
-import AdUnit from './components/adUnit'
-import License from 'raw-loader!./LICENSE'
-=======
+
 import Common from '~/mixins/common';
 import Alert from '~/components/alert';
 import SeedLinkButton from '~/components/seedLinkButton';
@@ -115,10 +106,10 @@ import RecentCard from './layouts/recentCard';
 import ContentTool from './layouts/contentTool';
 import SiteFooter from './layouts/siteFooter';
 import Icon from './components/icon';
+import AdUnit from './components/adUnit'
 import License from "raw-loader!./LICENSE";
 import initEasterEgg from './easter-egg';
 import initKonamiEasterEgg from './konami-egg';
->>>>>>> 77d7eab (furpark 커스텀)
 
 export default {
   mixins: [Common],
@@ -165,63 +156,63 @@ export default {
       }
       return this.selectByTheme('#FFC0CB', '#211419')
     },
-<<<<<<< HEAD
-    sidebarMode() {
-      const value = this.$store.state.localConfig['risu.sidebar']
-      return value === 'hide' || value === 'footer' ? value : 'right'
-=======
-    watch: {
+  },
+  watch: {
+    '$store.state.page.viewName'(newVal) {
+        onsole.log('🔍 watch triggered:', newVal)
+          this.$nextTick(() => this.updateNotFoundImage(newVal))
+        },
         $route() {
-            this.isShowACLMessage = false;
+          this.isShowACLMessage = false;
         },
         '$store.state.viewData.userProfile'(val) {
-            if (val) {
-                this.showProfileImage()
-            }
+          if (val) {
+              this.showProfileImage()
+          }
         },
         '$store.state.page.data.document.title'(val) {
-            const title = val?.trim().toLowerCase();
-            const stars = document.getElementById('stars');
-            if (title !== 'do a barrel roll') {} else {doABarrelRoll()}
-            if (title?.includes("산골짜기늑대")) {
-                this.showStars();
-            } else {
-                stars?.remove();
-            }
+          const title = val?.trim().toLowerCase();
+          const stars = document.getElementById('stars');
+          if (title !== 'do a barrel roll') {} else {doABarrelRoll()}
+          if (title?.includes("산골짜기늑대")) {
+              this.showStars();
+          } else {
+              stars?.remove();
+          }
         }
->>>>>>> 77d7eab (furpark 커스텀)
-    },
-    rootClass() {
-      return {
-        'navbar-floating': this.$store.state.localConfig['risu.floating_navbar'] !== false,
-        'wide': this.$store.state.localConfig['risu.wide_mode'] === true,
-      }
-    },
-    skinConfig() {
-      /* 테마 의존 값을 여기(인라인 스타일)에 넣으면 SSR 첫 페인트와
-             * 하이드레이션 사이에 색이 튄다. 테마별 값은 전부 tokens.css가 담당하고,
-             * 인라인은 테마와 무관한 값만 유지한다. */
-      return {
-        '--risu-logo-width': this.$store.state.config['skin.risu.logo_width'],
-      }
-    },
-    resolvedBrand() {
-      /* 우선순위: 사용자 설정(프리셋/커스텀) > 위키 설정 > 기본 핑크(오버라이드 없음) */
-      const presets = {
-        pink: '#FFC0CB',
-        lavender: '#D9C6F2',
-        mint: '#BFE8D2',
-        sky: '#BFD9F2',
-        peach: '#FFD2B8',
-      }
-      const choice = this.$store.state.localConfig['risu.color']
-      if (presets[choice]) return presets[choice]
-      if (choice === 'custom') {
-        const custom = this.$store.state.localConfig['risu.color_custom']
-        if (/^#[0-9a-fA-F]{6}$/.test(custom)) return custom
-      }
-      return this.$store.state.config['skin.risu.brand_color']
-    },
+
+  },
+  rootClass() {
+    return {
+      'navbar-floating': this.$store.state.localConfig['risu.floating_navbar'] !== false,
+      'wide': this.$store.state.localConfig['risu.wide_mode'] === true,
+    }
+  },
+  skinConfig() {
+    /* 테마 의존 값을 여기(인라인 스타일)에 넣으면 SSR 첫 페인트와
+            * 하이드레이션 사이에 색이 튄다. 테마별 값은 전부 tokens.css가 담당하고,
+            * 인라인은 테마와 무관한 값만 유지한다. */
+    return {
+      '--risu-logo-width': this.$store.state.config['skin.risu.logo_width'],
+    }
+  },
+  resolvedBrand() {
+    /* 우선순위: 사용자 설정(프리셋/커스텀) > 위키 설정 > 기본 핑크(오버라이드 없음) */
+    const presets = {
+      pink: '#FFC0CB',
+      lavender: '#D9C6F2',
+      mint: '#BFE8D2',
+      sky: '#BFD9F2',
+      peach: '#FFD2B8',
+    }
+    const choice = this.$store.state.localConfig['risu.color']
+    if (presets[choice]) return presets[choice]
+    if (choice === 'custom') {
+      const custom = this.$store.state.localConfig['risu.color_custom']
+      if (/^#[0-9a-fA-F]{6}$/.test(custom)) return custom
+    }
+    return this.$store.state.config['skin.risu.brand_color']
+  },
     brandOverrideCss() {
       const brand = this.resolvedBrand
       if (!brand || !/^#[0-9a-fA-F]{6}$/.test(brand)) return ''
@@ -284,6 +275,7 @@ export default {
 
       /* 엔진 컴포넌트가 테마를 스스로 고르는 light/dark 변수 쌍
              * (thetree.css :root 고정 선언을 덮는다) — 양쪽 블록에 모두 공급 */
+
       const themePair = [
         `--light-text-color:${text}`,
         `--dark-text-color:${dText}`,
@@ -319,7 +311,6 @@ export default {
       return `body:not(.theseed-dark-mode){${[...lightVars, ...themePair].join(';')}}`
         + `body.theseed-dark-mode.theseed-dark-mode{${[...darkVars, ...themePair].join(';')}}`
     },
-<<<<<<< HEAD
     selectedFont() {
       const value = this.$store.state.localConfig['risu.font']
       return ['pretendard', 'noto', 'custom'].includes(value) ? value : ''
@@ -385,120 +376,6 @@ export default {
           const format = formats[extension] ? ` format("${formats[extension]}")` : ''
           return `@font-face{font-family:"risu-custom-font";src:url("${this.customFontUrl}")${format};font-display:swap}`
             + `:root:root{--risu-font:"risu-custom-font",${fallback}}`
-=======
-    methods: {
-        showEditMessage() {
-            if (this.isShowACLMessage) {
-                this.$router.push(this.doc_action_link(this.$store.state.page.data.document, this.requestable ? 'new_edit_request' : 'edit'));
-            }
-            else {
-                this.isShowACLMessage = true;
-            }
-        },
-        hexToHsl(hex) {
-            const r = parseInt(hex.substring(1, 3), 16) / 255;
-            const g = parseInt(hex.substring(3, 5), 16) / 255;
-            const b = parseInt(hex.substring(5, 7), 16) / 255;
-            const max = Math.max(r, g, b);
-            const min = Math.min(r, g, b);
-            const l = (max + min) / 2;
-            let h = 0, s = 0;
-            if (max !== min) {
-                const d = max - min;
-                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                switch (max) {
-                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                    case g: h = (b - r) / d + 2; break;
-                    default: h = (r - g) / d + 4;
-                }
-                h *= 60;
-            }
-            return { h, s: s * 100, l: l * 100 };
-        },
-        hslToHex(h, s, l) {
-            s /= 100;
-            l /= 100;
-            const k = n => (n + h / 30) % 12;
-            const a = s * Math.min(l, 1 - l);
-            const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-            const to = x => Math.round(x * 255).toString(16).padStart(2, '0');
-            return '#' + to(f(0)) + to(f(8)) + to(f(4));
-        },
-        selectByTheme(light, dark) {
-            return this.$store.state.currentTheme === 'dark' ? dark : light;
-        },
-        updateNotFoundImage(viewName) {
-            const article = document.querySelector('.wiki-article')
-            const existing = document.querySelector('#notfound-watermark')
-
-            if (existing) existing.remove()
-
-            if (viewName === 'notfound' && article) {
-                article.style.position = 'relative';
-                article.style.height = '400px';
-                const count = 2 // notfound 이미지 개수
-                const randomNum = Math.floor(Math.random() * count) + 1
-                const randomSrc = `/notfound${randomNum}.png`
-                const alertBox = article.querySelector('.thetree-alert')
-                let imgElement = `<img id="notfound-watermark"
-                       src="${randomSrc}"
-                       style="width: 300px; opacity: 0.4; right: 0px; padding-right: 10px; margin-right: 20px; z-index: 0; position: absolute; pointer-events:none;">`
-                if (alertBox) {
-                    alertBox.insertAdjacentHTML(
-                      'afterend',
-                      imgElement
-                    )
-                } else {
-                    article.insertAdjacentHTML(
-                      'afterbegin',
-                      imgElement
-                    )
-                }
-            } else {
-                    article.style.position = '';
-                    article.style.height = '';
-            }
-        },
-        showProfileImage() {
-            this.$nextTick(() => {
-                if(this.$store.state['viewData'].userProfile) {
-                    const existUserProfile = document.querySelector('.user-profile-table');
-                    if(existUserProfile) existUserProfile.remove();
-                    const content = document.querySelector('.wiki-content')
-                    let date = new Date(this.$store.state['viewData'].userProfile.createdAt).toLocaleDateString();
-                    let profileHtml = `<div class="wiki-paragraph">
-                          <table class="user-profile-table">
-                              <tr>
-                                  <td colspan=2 class="avatar-cell">
-                                      <img src="${this.$store.state['viewData'].userProfile.gravatarUrl}" alt="Avatar" class="avatar">
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td><strong class="clone-trigger">사용자명</strong></td>
-                                  <td>${this.$store.state['viewData'].userProfile.username}</td>
-                              </tr>
-                              <tr>
-                                  <td><strong>가입일</strong></td>
-                                  <td>${date}</td>
-                              </tr>
-                              <tr>
-                                  <td><strong>권한</strong></td>
-                                  <td>${this.$store.state['viewData'].userProfile.userPerm}</td>
-                              </tr>
-                              <tr>
-                                  <td><strong>ACL Group</strong></td>
-                                  <td>${this.$store.state['viewData'].userProfile.aclGroups}</td>
-                              </tr>
-                          </table>
-                      </div>`;
-                content.insertAdjacentHTML(
-                    'afterbegin',
-                    profileHtml
-                    )
-                    bindCloneTrigger();
-                }
-            })
->>>>>>> 77d7eab (furpark 커스텀)
         }
         if (this.customFontStyleUrl && this.customFontFamily) return `:root:root{--risu-font:"${this.customFontFamily}",${fallback}}`
         if (this.customFontName) return `:root:root{--risu-font:"${this.customFontName}",${fallback}}`
@@ -579,11 +456,117 @@ export default {
       }
       this.hasToc = !!this.$refs.article?.querySelector('.wiki-macro-toc')
     },
+    updateNotFoundImage(viewName) {
+        const article = document.querySelector('.wiki-article')
+        const existing = document.querySelector('#notfound-watermark')
+
+        if (existing) existing.remove()
+
+        if (viewName === 'notfound' && article) {
+            article.style.position = 'relative';
+            article.style.height = '400px';
+            const count = 2 // notfound 이미지 개수
+            const randomNum = Math.floor(Math.random() * count) + 1
+            const randomSrc = `/notfound${randomNum}.png`
+            const alertBox = article.querySelector('.thetree-alert')
+            let imgElement = `<img id="notfound-watermark"
+                    src="${randomSrc}"
+                    style="width: 300px; opacity: 0.4; right: 0px; padding-right: 10px; margin-right: 20px; z-index: 0; position: absolute; pointer-events:none;">`
+            if (alertBox) {
+                alertBox.insertAdjacentHTML(
+                  'afterend',
+                  imgElement
+                )
+            } else {
+                article.insertAdjacentHTML(
+                  'afterbegin',
+                  imgElement
+                )
+            }
+        } else {
+                article.style.position = '';
+                article.style.height = '';
+        }
+    },
+    showProfileImage() {
+        this.$nextTick(() => {
+            if(this.$store.state['viewData'].userProfile) {
+                const existUserProfile = document.querySelector('.user-profile-table');
+                if(existUserProfile) existUserProfile.remove();
+                const content = document.querySelector('.wiki-content')
+                let date = new Date(this.$store.state['viewData'].userProfile.createdAt).toLocaleDateString();
+                let profileHtml = `<div class="wiki-paragraph">
+                      <table class="user-profile-table">
+                          <tr>
+                              <td colspan=2 class="avatar-cell">
+                                  <img src="${this.$store.state['viewData'].userProfile.gravatarUrl}" alt="Avatar" class="avatar">
+                              </td>
+                          </tr>
+                          <tr>
+                              <td><strong class="clone-trigger">사용자명</strong></td>
+                              <td>${this.$store.state['viewData'].userProfile.username}</td>
+                          </tr>
+                          <tr>
+                              <td><strong>가입일</strong></td>
+                              <td>${date}</td>
+                          </tr>
+                          <tr>
+                              <td><strong>권한</strong></td>
+                              <td>${this.$store.state['viewData'].userProfile.userPerm}</td>
+                          </tr>
+                          <tr>
+                              <td><strong>ACL Group</strong></td>
+                              <td>${this.$store.state['viewData'].userProfile.aclGroups}</td>
+                          </tr>
+                      </table>
+                  </div>`;
+            content.insertAdjacentHTML(
+                'afterbegin',
+                profileHtml
+                )
+                bindCloneTrigger();
+            }
+        })
+    },
+    showStars() {
+        const content = document.querySelector('.wiki-article');
+        const stars = document.getElementById('stars');
+        if(stars) { return 0; }
+        content.insertAdjacentHTML('afterbegin', '<div id="stars"></div>');
+        const container = document.getElementById("stars");
+
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement("div");
+
+            const size = Math.random() * 3 + 1;
+
+            star.className = "star";
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+
+            star.style.animationDuration =
+                `${Math.random() * 4 + 2}s`;
+
+            container.appendChild(star);
+        }
+    }
   },
   mounted() {
     this.checkToc()
     this.tocObserver = new MutationObserver(this.checkToc)
     this.tocObserver.observe(this.$refs.article, { childList: true, subtree: true })
+    this.showProfileImage();
+    initEasterEgg();
+    initKonamiEasterEgg();
+    this.$nextTick(() => {
+      // 초기 페이지 로드 시에도 실행되도록
+      this.updateNotFoundImage(this.$store.state.page.viewName)
+    })
+    const title = this.$store.state.page?.data?.document?.title?.trim().toLowerCase();
+    if(title?.includes('산골짜기늑대')) { this.showStars() };
   },
   beforeUnmount() {
     this.tocObserver?.disconnect()
